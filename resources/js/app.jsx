@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layouts/MainLayout';
 import Dashboard from './pages/Dashboard';
 import ProductList from './pages/ProductList';
+import ProductForm from './components/Products/ProductForm';
 import OrderList from './pages/OrderList';
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="products" element={<ProductList />} />
+                    <Route path="products/create" element={<ProductForm />} />
+                    <Route path="products/:id/edit" element={<ProductForm />} />
                     <Route path="orders" element={<OrderList />} />
                 </Route>
             </Routes>

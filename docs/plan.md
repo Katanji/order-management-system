@@ -43,9 +43,9 @@ Develop a full-stack Order Management System using Laravel (API) and React (SPA)
 - [x] Create `ApiClient` (Axios instance with base URL).
 
 ### Phase 5: Frontend - Products
-- [ ] Component: `ProductList` (Table, Search, Pagination).
-- [ ] Component: `ProductForm` (Add/Edit Product).
-- [ ] Integrate with Product API.
+- [x] Component: `ProductList` (Table, Search, Pagination).
+- [x] Component: `ProductForm` (Add/Edit Product).
+- [x] Integrate with Product API.
 
 ### Phase 6: Frontend - Orders
 - [ ] Component: `OrderList` (Table, Filters).
