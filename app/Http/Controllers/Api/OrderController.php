@@ -39,11 +39,15 @@ class OrderController extends Controller
                 $product = $products->get($item['product_id']);
                 
                 if (!$product) {
-                    abort(422, "Product ID {$item['product_id']} not found.");
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'items' => ["Product ID {$item['product_id']} not found."]
+                    ]);
                 }
 
                 if ($item['quantity'] > $product->stock_quantity) {
-                    abort(422, "Not enough stock for product '{$product->name}'. Requested: {$item['quantity']}, Available: {$product->stock_quantity}");
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'items' => ["Not enough stock for product '{$product->name}'. Requested: {$item['quantity']}, Available: {$product->stock_quantity}"]
+                    ]);
                 }
 
                 $itemsData[] = [
@@ -81,7 +85,7 @@ class OrderController extends Controller
     public function confirm(Order $order): JsonResponse
     {
         if ($order->status !== \App\Enums\OrderStatus::Pending) {
-            return response()->json(['message' => 'Order is not pending.'], 400);
+            return response()->json(['message' => 'Order is not pending.'], 409);
         }
 
         return DB::transaction(function () use ($order) {
@@ -93,7 +97,9 @@ class OrderController extends Controller
                 $product = Product::lockForUpdate()->find($item->product_id);
 
                 if ($item->quantity > $product->stock_quantity) {
-                    abort(422, "Not enough stock for product '{$product->name}' at confirmation. Requested: {$item->quantity}, Available: {$product->stock_quantity}");
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'stock' => ["Not enough stock for product '{$product->name}' at confirmation. Requested: {$item->quantity}, Available: {$product->stock_quantity}"]
+                    ]);
                 }
 
                 $product->decrement('stock_quantity', $item->quantity);
@@ -108,7 +114,7 @@ class OrderController extends Controller
     public function cancel(Order $order): JsonResponse
     {
         if ($order->status !== \App\Enums\OrderStatus::Pending) {
-            return response()->json(['message' => 'Only pending orders can be cancelled.'], 400);
+            return response()->json(['message' => 'Only pending orders can be cancelled.'], 409);
         }
 
         $order->update(['status' => \App\Enums\OrderStatus::Cancelled]);
