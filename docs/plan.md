@@ -27,15 +27,15 @@ Develop a full-stack Order Management System using Laravel (API) and React (SPA)
     - [x] API Routes.
 
 ### Phase 3: Backend - Orders & Logic
-- [ ] **API**: Order Placement.
-    - [ ] `OrderController@store`.
-    - [ ] Logic to validate stock, calculate totals, create `OrderItem`s.
-    - [ ] DB Transaction for atomicity.
-- [ ] **API**: Order Management.
-    - [ ] `OrderController@index` (Filter by status, date).
-    - [ ] `OrderController@confirm` (Status transition: Pending -> Confirmed).
-        - [ ] Stock deduction logic.
-        - [ ] Validation (ensure enough stock at confirmation time if not reserved earlier, or check SOW logic). *SOW says: "Confirm order (must decrease stock quantity)". Use DB transaction.*
+- [x] **API**: Order Placement.
+    - [x] `OrderController@store`.
+    - [x] Logic to validate stock, calculate totals, create `OrderItem`s.
+    - [x] DB Transaction for atomicity.
+- [x] **API**: Order Management.
+    - [x] `OrderController@index` (Filter by status, date).
+    - [x] `OrderController@confirm` (Status transition: Pending -> Confirmed).
+        - [x] Stock deduction logic.
+        - [x] Validation (ensure enough stock at confirmation time if not reserved earlier, or check SOW logic). *SOW says: "Confirm order (must decrease stock quantity)". Use DB transaction.*
 
 ### Phase 4: Frontend - Infrastructure
 - [ ] Setup `App.jsx` and `MainLayout`.
