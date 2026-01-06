@@ -12,19 +12,19 @@ Develop a full-stack Order Management System using Laravel (API) and React (SPA)
 ## Steps
 
 ### Phase 1: Setup & Configuration
-- [ ] Initialize Laravel Project.
-- [ ] Setup Development Environment (DB, etc.).
-- [ ] Install React, React Router, Axios, Tailwind CSS.
-- [ ] Configure `vite.config.js` for React.
+- [x] Initialize Laravel Project.
+- [x] Setup Development Environment (DB, etc.).
+- [x] Install React, React Router, Axios, Tailwind CSS.
+- [x] Configure `vite.config.js` for React.
 
 ### Phase 2: Backend - Core Structure & Products
-- [ ] Create Migrations: `products`, `orders`, `order_items`.
-- [ ] Create Models: `Product` (with cast/fillable), `Order`, `OrderItem`.
-- [ ] Define Relationships (`Order` hasMany `OrderItem`, `OrderItem` belongsTo `Product`).
-- [ ] **API**: Product CRUD.
-    - [ ] `ProductController` (index, store, show, update, destroy).
-    - [ ] Form Requests (`StoreProductRequest`, `UpdateProductRequest`).
-    - [ ] API Routes.
+- [x] Create Migrations: `products`, `orders`, `order_items`.
+- [x] Create Models: `Product` (with cast/fillable), `Order`, `OrderItem`.
+- [x] Define Relationships (`Order` hasMany `OrderItem`, `OrderItem` belongsTo `Product`).
+- [x] **API**: Product CRUD.
+    - [x] `ProductController` (index, store, show, update, destroy).
+    - [x] Form Requests (`StoreProductRequest`, `UpdateProductRequest`).
+    - [x] API Routes.
 
 ### Phase 3: Backend - Orders & Logic
 - [ ] **API**: Order Placement.
