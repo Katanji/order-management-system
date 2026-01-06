@@ -38,9 +38,9 @@ Develop a full-stack Order Management System using Laravel (API) and React (SPA)
         - [x] Validation (ensure enough stock at confirmation time if not reserved earlier, or check SOW logic). *SOW says: "Confirm order (must decrease stock quantity)". Use DB transaction.*
 
 ### Phase 4: Frontend - Infrastructure
-- [ ] Setup `App.jsx` and `MainLayout`.
-- [ ] Configure `react-router-dom`.
-- [ ] Create `ApiClient` (Axios instance with base URL).
+- [x] Setup `App.jsx` and `MainLayout`.
+- [x] Configure `react-router-dom`.
+- [x] Create `ApiClient` (Axios instance with base URL).
 
 ### Phase 5: Frontend - Products
 - [ ] Component: `ProductList` (Table, Search, Pagination).
