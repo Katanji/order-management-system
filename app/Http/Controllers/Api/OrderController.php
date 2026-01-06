@@ -63,7 +63,7 @@ class OrderController extends Controller
             }
 
             $order = Order::create([
-                'status' => 'pending',
+                'status' => \App\Enums\OrderStatus::Pending,
                 'total_price' => $totalPrice,
             ]);
 
@@ -86,7 +86,7 @@ class OrderController extends Controller
 
     public function confirm(Order $order): JsonResponse
     {
-        if ($order->status !== 'pending') {
+        if ($order->status !== \App\Enums\OrderStatus::Pending) {
             return response()->json(['message' => 'Order is not pending.'], 400);
         }
 
@@ -105,9 +105,20 @@ class OrderController extends Controller
                 $product->decrement('stock_quantity', $item->quantity);
             }
 
-            $order->update(['status' => 'confirmed']);
+            $order->update(['status' => \App\Enums\OrderStatus::Confirmed]);
 
             return response()->json($order);
         });
+    }
+
+    public function cancel(Order $order): JsonResponse
+    {
+        if ($order->status !== \App\Enums\OrderStatus::Pending) {
+            return response()->json(['message' => 'Only pending orders can be cancelled.'], 400);
+        }
+
+        $order->update(['status' => \App\Enums\OrderStatus::Cancelled]);
+
+        return response()->json($order);
     }
 }

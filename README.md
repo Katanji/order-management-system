@@ -4,8 +4,9 @@ A full-stack Order Management System built with **Laravel 11** (Backend) and **R
 
 ## 🚀 Features
 
-- **Product Management**: Create, read, update, and delete products.
-- **Order Management**: Create orders, view details, and confirm orders with stock deduction.
+- **Product Management**: Create, read, update, and delete products. **Case-insensitive search supported.**
+- **Order Management**: Create orders, view details, **filter by status/date**, and confirm orders with stock deduction.
+- **Cancel Orders**: Users can cancel pending orders before they are processed.
 - **Stock Control**: Atomic stock updates using database transactions.
 - **SPA Frontend**: Fast and responsive UI built with React, Vite, and Tailwind CSS.
 - **Dockerized Environment**: Easy setup using Laravel Sail (Docker).
@@ -35,9 +36,11 @@ A full-stack Order Management System built with **Laravel 11** (Backend) and **R
        composer install --ignore-platform-reqs
    ```
 
-3. **Start the environment**
+3. **Configure Environment**
    ```bash
+   cp .env.example .env
    ./vendor/bin/sail up -d
+   ./vendor/bin/sail artisan key:generate
    ```
 
 4. **Install Node dependencies & Build assets**

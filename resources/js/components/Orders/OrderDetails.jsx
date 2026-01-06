@@ -98,6 +98,19 @@ const OrderDetails = () => {
         }
     };
 
+    const handleCancelOrder = async () => {
+        if (!confirm('Are you sure you want to cancel this order?')) return;
+
+        try {
+            await axios.post(`/orders/${id}/cancel`);
+            toast.success('Order cancelled.');
+            await fetchOrder(); // Refresh to see new status
+        } catch (err) {
+            console.error(err);
+            toast.error('Failed to cancel order: ' + (err.response?.data?.message || err.message));
+        }
+    };
+
     return (
         <div className="max-w-4xl mx-auto py-8 container">
             <div className="mb-8 flex items-center justify-between">
@@ -162,6 +175,13 @@ const OrderDetails = () => {
 
             {order.status === 'pending' && (
                 <div className="mt-6 flex justify-end">
+                    <Button
+                        variant="destructive"
+                        className="mr-2"
+                        onClick={handleCancelOrder}
+                    >
+                        Cancel Order
+                    </Button>
                     <Button
                         className="bg-green-600 hover:bg-green-700"
                         onClick={handleConfirmOrder}

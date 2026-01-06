@@ -3,10 +3,12 @@ import axios from '../../lib/axios';
 import { Link } from 'react-router-dom';
 import PageLayout from '../PageLayout';
 import DataTable from '../DataTable';
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { TableRow, TableCell } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Eye } from "lucide-react"
+import { Plus, Eye, X } from "lucide-react"
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
@@ -14,11 +16,19 @@ const OrderList = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [status, setStatus] = useState('all');
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
 
     const fetchOrders = async (page = 1) => {
         setLoading(true);
         try {
-            const response = await axios.get(`/orders?page=${page}`);
+            const params = { page };
+            if (status && status !== 'all') params.status = status;
+            if (dateFrom) params.date_from = dateFrom;
+            if (dateTo) params.date_to = dateTo;
+
+            const response = await axios.get('/orders', { params });
             setOrders(response.data.data);
             setCurrentPage(response.data.current_page);
             setTotalPages(response.data.last_page);
@@ -31,9 +41,16 @@ const OrderList = () => {
         }
     };
 
+    const resetFilters = () => {
+        setStatus('all');
+        setDateFrom('');
+        setDateTo('');
+        setCurrentPage(1);
+    };
+
     useEffect(() => {
         fetchOrders(currentPage);
-    }, [currentPage]);
+    }, [currentPage, status, dateFrom, dateTo]);
 
     if (error) return <div className="container mx-auto py-10 text-center text-destructive">{error}</div>;
 
@@ -84,6 +101,44 @@ const OrderList = () => {
 
     return (
         <PageLayout title="Orders" actions={actions}>
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="w-full md:w-[200px]">
+                    <Select value={status} onValueChange={(val) => { setStatus(val); setCurrentPage(1); }}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Filter by Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Statuses</SelectItem>
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="confirmed">Confirmed</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="w-full md:w-[200px]">
+                    <Input
+                        type="date"
+                        placeholder="From Date"
+                        value={dateFrom}
+                        onChange={(e) => { setDateFrom(e.target.value); setCurrentPage(1); }}
+                        className="block"
+                    />
+                </div>
+                <div className="w-full md:w-[200px]">
+                    <Input
+                        type="date"
+                        placeholder="To Date"
+                        value={dateTo}
+                        onChange={(e) => { setDateTo(e.target.value); setCurrentPage(1); }}
+                        className="block"
+                    />
+                </div>
+                {(status !== 'all' || dateFrom || dateTo) && (
+                    <Button variant="ghost" onClick={resetFilters} className="px-2">
+                        <X className="mr-2 h-4 w-4" /> Reset
+                    </Button>
+                )}
+            </div>
             <DataTable
                 columns={columns}
                 data={orders}

@@ -84,7 +84,7 @@ class OrderStockTest extends TestCase
         // Assert initial status is pending
         $this->assertDatabaseHas('orders', [
             'id' => $orderId,
-            'status' => 'pending'
+            'status' => \App\Enums\OrderStatus::Pending
         ]);
 
         // Act: Confirm
@@ -93,7 +93,7 @@ class OrderStockTest extends TestCase
         // Assert: Status changed to confirmed
         $this->assertDatabaseHas('orders', [
             'id' => $orderId,
-            'status' => 'confirmed'
+            'status' => \App\Enums\OrderStatus::Confirmed
         ]);
     }
 

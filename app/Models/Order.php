@@ -16,6 +16,7 @@ class Order extends Model
     ];
 
     protected $casts = [
+        'status' => \App\Enums\OrderStatus::class,
         'total_price' => 'decimal:2',
     ];
 

@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('products', ProductController::class);
     Route::apiResource('orders', OrderController::class)->only(['index', 'store', 'show']);
-    Route::post('orders/{order}/confirm', [OrderController::class, 'confirm']);
+    Route::post('/orders/{order}/confirm', [OrderController::class, 'confirm']);
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
 });

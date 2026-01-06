@@ -16,7 +16,7 @@ class ProductController extends Controller
         $query = Product::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'ilike', '%' . $request->search . '%');
         }
 
         return response()->json($query->orderBy('id')->paginate(10));
@@ -43,8 +43,16 @@ class ProductController extends Controller
 
     public function destroy(Product $product): JsonResponse
     {
-        $product->delete();
-
-        return response()->json(null, 204);
+        try {
+            $product->delete();
+            return response()->json(null, 204);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23503') {
+                return response()->json([
+                    'message' => 'Cannot delete product because it is associated with existing orders.'
+                ], 409);
+            }
+            throw $e;
+        }
     }
 }
