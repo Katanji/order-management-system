@@ -5,3 +5,4 @@
 3.  **Database**: Use PostgreSQL.
 4.  **Language**: Communicate in Russian. Write code in English.
 5.  **Aesthetics**: Follow the "Design Aesthetics" guidelines from system instructions (Premium, Dynamic, etc.).
+6.  **Git Safety**: Always run `git status` to check pending changes before proposing a commit message.

@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../lib/axios';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Plus, Search, Edit, Trash2 } from "lucide-react"
 
 export default function ProductList() {
     const [products, setProducts] = useState([]);
@@ -51,87 +64,110 @@ export default function ProductList() {
     };
 
     return (
-        <div className="space-y-4">
-            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
-                <h1 className="text-2xl font-semibold text-gray-900">Products</h1>
-                <Link
-                    to="/products/create"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Add Product
-                </Link>
+        <div className="container mx-auto py-10">
+            <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold tracking-tight">Products</h2>
+                <Button asChild>
+                    <Link to="/products/create">
+                        <Plus className="mr-2 h-4 w-4" /> Add Product
+                    </Link>
+                </Button>
             </div>
 
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        className="w-full max-w-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle>Product Inventory</CardTitle>
+                        <div className="relative w-72">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Search products..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="pl-8"
+                            />
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[80px]">ID</TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Price</TableHead>
+                                    <TableHead>Stock</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {loading ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="h-24 text-center">
+                                            Loading...
+                                        </TableCell>
+                                    </TableRow>
+                                ) : products.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="h-24 text-center">
+                                            No products found.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    products.map((product) => (
+                                        <TableRow key={product.id}>
+                                            <TableCell className="font-medium bg-muted/50 p-2 rounded-sm w-fit text-xs text-center">{product.id}</TableCell>
+                                            <TableCell className="font-medium">{product.name}</TableCell>
+                                            <TableCell>${parseFloat(product.price).toFixed(2)}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={product.stock_quantity > 0 ? "secondary" : "destructive"}>
+                                                    {product.stock_quantity} in stock
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <Button variant="ghost" size="icon" asChild className="mr-2">
+                                                    <Link to={`/products/${product.id}/edit`}>
+                                                        <Edit className="h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDelete(product.id)}>
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
 
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {loading ? (
-                                <tr>
-                                    <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">Loading...</td>
-                                </tr>
-                            ) : products.length === 0 ? (
-                                <tr>
-                                    <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">No products found.</td>
-                                </tr>
-                            ) : (
-                                products.map(product => (
-                                    <tr key={product.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.id}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.price}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.stock_quantity}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link to={`/products/${product.id}/edit`} className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</Link>
-                                            <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900">Delete</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Pagination */}
-                <div className="mt-4 flex justify-between items-center">
-                    <button
-                        onClick={() => setPage(p => Math.max(1, p - 1))}
-                        disabled={page === 1}
-                        className="px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                    >
-                        Previous
-                    </button>
-                    <span className="text-sm text-gray-700">
-                        Page {page} of {lastPage}
-                    </span>
-                    <button
-                        onClick={() => setPage(p => Math.min(lastPage, p + 1))}
-                        disabled={page === lastPage}
-                        className="px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                    >
-                        Next
-                    </button>
-                </div>
-            </div>
+                    {/* Pagination */}
+                    {lastPage > 1 && (
+                        <div className="flex items-center justify-end space-x-2 py-4">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage(p => Math.max(1, p - 1))}
+                                disabled={page === 1}
+                            >
+                                Previous
+                            </Button>
+                            <span className="text-sm text-muted-foreground">
+                                Page {page} of {lastPage}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage(p => Math.min(lastPage, p + 1))}
+                                disabled={page === lastPage}
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }

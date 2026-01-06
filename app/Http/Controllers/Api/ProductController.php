@@ -19,7 +19,7 @@ class ProductController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        return response()->json($query->paginate(10));
+        return response()->json($query->orderBy('id')->paginate(10));
     }
 
     public function store(StoreProductRequest $request): JsonResponse
