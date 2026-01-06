@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../lib/axios';
 import { useParams, Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import {
     Card,
     CardContent,
@@ -89,10 +90,11 @@ const OrderDetails = () => {
 
         try {
             await axios.post(`/orders/${id}/confirm`);
+            toast.success('Order confirmed! Stock has been deducted.');
             await fetchOrder(); // Refresh to see new status
         } catch (err) {
             console.error(err);
-            alert('Failed to confirm order: ' + (err.response?.data?.message || err.message));
+            toast.error('Failed to confirm order: ' + (err.response?.data?.message || err.message));
         }
     };
 

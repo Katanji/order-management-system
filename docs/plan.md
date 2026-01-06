@@ -48,21 +48,17 @@ Develop a full-stack Order Management System using Laravel (API) and React (SPA)
 - [x] Integrate with Product API.
 
 ### Phase 6: Frontend - Orders
-- [ ] Component: `OrderList` (Table, Filters).
-- [ ] Component: `CreateOrder` (Complex form).
-    - [ ] Dynamic product selection rows.
-    - [ ] Live stock check (optional/nice to have) or just max quantity validation.
-    - [ ] Auto-calculate total.
-- [ ] Component: `OrderDetails` (optional, or modal).
-- [ ] Implement "Confirm" action in `OrderList`.
+- [x] Component: `OrderList` (Table, Filters).
+- [x] Component: `CreateOrder` (Complex form).
+    - [x] Dynamic product selection rows.
+    - [x] Max quantity validation.
+    - [x] Auto-calculate total.
+- [x] Component: `OrderDetails` with Confirm action.
+- [x] E2E tests for order flow.
 
 ### Phase 7: Bonus & Polish
-- [ ] Implement Authentication (Laravel Sanctum + React Auth Context).
-- [ ] Unit Tests (2-3 tests for Stock Logic).
-- [ ] Validation feedback improvements (Toast notifications).
-- [ ] Generate README.md.
+- [x] Implement Authentication (Laravel Sanctum + React Auth Context).
+- [x] Unit Tests (2-3 tests for Stock Logic).
+- [x] Validation feedback improvements (Toast notifications).
+- [x] Generate README.md.
 
-## Tools to use
-- `artisan`
-- `npm`
-- `cursor` / `antigravity` (me)

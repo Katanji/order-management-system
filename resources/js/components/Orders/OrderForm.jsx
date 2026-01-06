@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../lib/axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import {
     Card,
     CardContent,
@@ -98,7 +99,7 @@ const OrderForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (cart.length === 0) {
-            setError('Please add at least one product to the order');
+            toast.error('Please add at least one product to the order');
             return;
         }
 
@@ -114,14 +115,13 @@ const OrderForm = () => {
             };
 
             await axios.post('/orders', payload);
+            toast.success('Order placed successfully!');
             navigate('/orders');
         } catch (err) {
             console.error(err);
-            if (err.response && err.response.data.message) {
-                setError(err.response.data.message);
-            } else {
-                setError('Failed to create order');
-            }
+            const errorMessage = err.response?.data?.message || 'Failed to create order';
+            toast.error(errorMessage);
+            setError(errorMessage);
         } finally {
             setSubmitting(false);
         }
