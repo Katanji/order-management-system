@@ -17,16 +17,10 @@ class OrderController extends Controller
         $query = Order::with('items.product');
 
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $query->filterByStatus($request->status);
         }
 
-        if ($request->has('date_from')) {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-
-        if ($request->has('date_to')) {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
+        $query->filterByDateRange($request->date_from, $request->date_to);
 
         return response()->json($query->latest()->paginate(10));
     }

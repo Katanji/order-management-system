@@ -16,7 +16,7 @@ class ProductController extends Controller
         $query = Product::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'ilike', '%' . $request->search . '%');
+            $query->search($request->search);
         }
 
         return response()->json($query->orderBy('id')->paginate(10));

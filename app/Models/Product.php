@@ -21,6 +21,11 @@ class Product extends Model
         'stock_quantity' => 'integer',
     ];
 
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'ilike', '%' . $search . '%');
+    }
+
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);

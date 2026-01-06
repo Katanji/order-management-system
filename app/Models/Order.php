@@ -20,6 +20,22 @@ class Order extends Model
         'total_price' => 'decimal:2',
     ];
 
+    public function scopeFilterByStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeFilterByDateRange($query, $from, $to)
+    {
+        if ($from) {
+            $query->whereDate('created_at', '>=', $from);
+        }
+        if ($to) {
+            $query->whereDate('created_at', '<=', $to);
+        }
+        return $query;
+    }
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);
