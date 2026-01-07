@@ -19,7 +19,9 @@ class ProductController extends Controller
             $query->search($request->search);
         }
 
-        return response()->json($query->orderBy('id')->paginate(10));
+        $perPage = min($request->input('per_page', 10), 100); // Max 100
+
+        return response()->json($query->orderBy('id', 'desc')->paginate($perPage));
     }
 
     public function store(StoreProductRequest $request): JsonResponse

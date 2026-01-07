@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test('Logout flow', async ({ page }) => {
-    page.on('console', msg => console.log(`BROWSER LOG: ${msg.text()}`));
+    page.on('console', msg => {
+        const text = msg.text();
+        if (!text.includes('401 (Unauthorized)')) {
+            console.log(`BROWSER LOG: ${text}`);
+        }
+    });
     // 0. Login first
     await page.goto('/login');
     await page.fill('input[type="email"]', 'test@example.com');

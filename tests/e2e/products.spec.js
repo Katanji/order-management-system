@@ -18,7 +18,9 @@ test('Product List loads and displays products', async ({ page }) => {
     // 3. Check for the "Add Product" link
     await expect(page.locator('a', { hasText: 'Add Product' })).toBeVisible();
 
-    // 4. Check for at least one product row (we added MacBook earlier)
+    // 4. Search for MacBook and verify it exists
+    await page.fill('input[placeholder="Search products..."]', 'MacBook');
+    await page.waitForTimeout(500); // Wait for search to apply
     await expect(page.locator('td', { hasText: 'MacBook' }).first()).toBeVisible();
     await expect(page.locator('td', { hasText: '$2000' }).first()).toBeVisible();
 
@@ -48,6 +50,7 @@ test('Create Product flow', async ({ page }) => {
     // Should redirect to product list
     await expect(page).toHaveURL(/\/products$/);
 
-    // Should see the new product
-    await expect(page.locator('td', { hasText: productName })).toBeVisible();
+    // Wait for table to load and should see the new product
+    await expect(page.locator('table')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('td', { hasText: productName })).toBeVisible({ timeout: 10000 });
 });

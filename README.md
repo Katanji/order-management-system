@@ -49,12 +49,14 @@ A full-stack Order Management System built with **Laravel 11** (Backend) and **R
    npm run build
    ```
 
-5. **Run Migrations**
+5. **Run Migrations & Seed Database**
    ```bash
-   ./vendor/bin/sail artisan migrate
+   ./vendor/bin/sail artisan migrate --seed
    ```
 
 The application will be available at: [http://localhost:8085](http://localhost:8085)
+
+**Test credentials:** `test@example.com` / `password`
 
 ## 🧪 Running Tests
 

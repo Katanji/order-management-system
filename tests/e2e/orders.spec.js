@@ -8,8 +8,11 @@ test('Order Flow: Create and View Order', async ({ page }) => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL(/\/$/);
 
-    // 1. Check initial stock of the first product
+    // 1. Search for a product with sufficient stock (MacBook Pro 16 from seeder)
     await page.goto('/products');
+    await page.fill('input[placeholder="Search products..."]', 'MacBook Pro 16');
+    await page.waitForTimeout(500);
+
     const firstProductRow = page.locator('tbody tr').first();
     const stockCell = firstProductRow.locator('td').nth(3); // 4th column is Stock
     const stockText = await stockCell.innerText();
@@ -93,6 +96,8 @@ test('Order Flow: Create and View Order', async ({ page }) => {
 
     // 11. Verify Stock Deduction
     await page.goto('/products');
+    await page.fill('input[placeholder="Search products..."]', productName);
+    await page.waitForTimeout(500);
 
     // Find the row for the specific product we ordered
     const productRow = page.locator('tbody tr', { hasText: productName });
@@ -112,11 +117,12 @@ test('Order Flow: Insufficient Stock Error', async ({ page }) => {
     await page.goto('/login');
     await page.fill('input[type="email"]', 'test@example.com');
     await page.fill('input[type="password"]', 'password');
-    await page.click('button:has-text("Sign In")');
+    await page.click('button[type="submit"]');
     await expect(page).toHaveURL(/\/$/);
 
     // 2. Create a product with stock 1 via API (using page.evaluate to run inside browser context)
-    const product = await page.evaluate(async () => {
+    const uniqueName = `Low Stock Item ${Date.now()}`;
+    const product = await page.evaluate(async (productName) => {
         // Need to manually fetch CSRF token from cookie for native fetch, 
         // OR rely on Axios if it's available globally (it isn't usually exposed).
         // Let's use fetch.
@@ -131,28 +137,27 @@ test('Order Flow: Insufficient Stock Error', async ({ page }) => {
                 'X-XSRF-TOKEN': xsrfToken
             },
             body: JSON.stringify({
-                name: 'Low Stock Item',
+                name: productName,
                 price: 100,
                 stock_quantity: 1
             })
         });
         if (!response.ok) throw new Error('Failed to create product via API: ' + response.status);
         return await response.json();
-    });
+    }, uniqueName);
 
     // 3. Create an order via UI
-    await page.click('text=Products');
-    await page.click('text=Create Order');
+    await page.goto('/orders/create');
 
     // Select product
     await page.click('[role="combobox"]');
-    await page.locator('[role="option"]', { hasText: 'Low Stock Item' }).first().click();
+    await page.locator('[role="option"]', { hasText: uniqueName }).first().click();
     await page.click('button:has-text("Add to Order")');
     await page.click('button:has-text("Place Order")');
     await expect(page).toHaveURL(/\/orders$/);
 
     // 4. SIMULATE RACE CONDITION: Update stock to 0 via API (page.evaluate)
-    await page.evaluate(async (productId) => {
+    await page.evaluate(async ({ productId, productName }) => {
         const getCookie = (name) => document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || '';
         const xsrfToken = decodeURIComponent(getCookie('XSRF-TOKEN'));
 
@@ -164,13 +169,13 @@ test('Order Flow: Insufficient Stock Error', async ({ page }) => {
                 'X-XSRF-TOKEN': xsrfToken
             },
             body: JSON.stringify({
-                name: 'Low Stock Item',
+                name: productName,
                 price: 100,
                 stock_quantity: 0
             })
         });
         if (!response.ok) throw new Error('Failed to update product via API: ' + response.status);
-    }, product.id);
+    }, { productId: product.id, productName: uniqueName });
 
     // 5. Go to Order Details and Try to Confirm
     const firstOrderRow = page.locator('tbody tr').first();
@@ -181,5 +186,5 @@ test('Order Flow: Insufficient Stock Error', async ({ page }) => {
 
     // 6. Assert Error Toast appears
     await expect(page.locator('li[data-type="error"]')).toContainText("Not enough stock");
-    await expect(page.locator('li[data-type="error"]')).toContainText("Low Stock Item");
+    await expect(page.locator('li[data-type="error"]')).toContainText(uniqueName);
 });
