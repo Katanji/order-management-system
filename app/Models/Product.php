@@ -23,7 +23,7 @@ class Product extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('name', 'ilike', '%' . $search . '%');
+        return $query->where('name', 'ilike', '%'.$search.'%');
     }
 
     public function orderItems()

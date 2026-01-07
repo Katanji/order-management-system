@@ -93,8 +93,11 @@ const OrderDetails = () => {
             toast.success('Order confirmed! Stock has been deducted.');
             await fetchOrder(); // Refresh to see new status
         } catch (err) {
-            console.error(err);
-            toast.error('Failed to confirm order: ' + (err.response?.data?.message || err.message));
+            if (err.response?.data?.errors?.stock) {
+                toast.error(err.response.data.errors.stock[0]);
+            } else {
+                toast.error('Failed to confirm order: ' + (err.response?.data?.message || err.message));
+            }
         }
     };
 
@@ -106,7 +109,6 @@ const OrderDetails = () => {
             toast.success('Order cancelled.');
             await fetchOrder(); // Refresh to see new status
         } catch (err) {
-            console.error(err);
             toast.error('Failed to cancel order: ' + (err.response?.data?.message || err.message));
         }
     };

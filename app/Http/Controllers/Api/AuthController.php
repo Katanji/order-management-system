@@ -47,8 +47,17 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        // Revoke the token that was used to authenticate the current request
-        $request->user()->currentAccessToken()->delete();
+        $accessToken = $request->user()->currentAccessToken();
+
+        // Revoke the token if it's a real API token (not a session/transient one)
+        if ($accessToken && !($accessToken instanceof \Laravel\Sanctum\TransientToken)) {
+            $accessToken->delete();
+        }
+
+        // Invalidate session (SPA)
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out successfully']);
     }

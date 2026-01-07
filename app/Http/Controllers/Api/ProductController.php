@@ -45,11 +45,12 @@ class ProductController extends Controller
     {
         try {
             $product->delete();
+
             return response()->json(null, 204);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() === '23503') {
                 return response()->json([
-                    'message' => 'Cannot delete product because it is associated with existing orders.'
+                    'message' => 'Cannot delete product because it is associated with existing orders.',
                 ], 409);
             }
             throw $e;

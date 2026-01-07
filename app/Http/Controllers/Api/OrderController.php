@@ -37,16 +37,16 @@ class OrderController extends Controller
 
             foreach ($request->items as $item) {
                 $product = $products->get($item['product_id']);
-                
-                if (!$product) {
+
+                if (! $product) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'items' => ["Product ID {$item['product_id']} not found."]
+                        'items' => ["Product ID {$item['product_id']} not found."],
                     ]);
                 }
 
                 if ($item['quantity'] > $product->stock_quantity) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'items' => ["Not enough stock for product '{$product->name}'. Requested: {$item['quantity']}, Available: {$product->stock_quantity}"]
+                        'items' => ["Not enough stock for product '{$product->name}'. Requested: {$item['quantity']}, Available: {$product->stock_quantity}"],
                     ]);
                 }
 
@@ -98,7 +98,7 @@ class OrderController extends Controller
 
                 if ($item->quantity > $product->stock_quantity) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'stock' => ["Not enough stock for product '{$product->name}' at confirmation. Requested: {$item->quantity}, Available: {$product->stock_quantity}"]
+                        'stock' => ["Not enough stock for product '{$product->name}' at confirmation. Requested: {$item->quantity}, Available: {$product->stock_quantity}"],
                     ]);
                 }
 

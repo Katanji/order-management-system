@@ -28,8 +28,8 @@ class OrderStockTest extends TestCase
         // Create an order with 3 items
         $orderResponse = $this->actingAs($this->user)->postJson('/api/orders', [
             'items' => [
-                ['product_id' => $product->id, 'quantity' => 3]
-            ]
+                ['product_id' => $product->id, 'quantity' => 3],
+            ],
         ]);
 
         $orderResponse->assertStatus(201);
@@ -38,7 +38,7 @@ class OrderStockTest extends TestCase
         // Assert stock unchanged after creation (still pending)
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'stock_quantity' => 10
+            'stock_quantity' => 10,
         ]);
 
         // Act: Confirm the order
@@ -48,7 +48,7 @@ class OrderStockTest extends TestCase
         // Assert: Stock decreased by 3
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'stock_quantity' => 7
+            'stock_quantity' => 7,
         ]);
     }
 
@@ -60,8 +60,8 @@ class OrderStockTest extends TestCase
         // Create an order requesting 5 items (more than available)
         $orderResponse = $this->actingAs($this->user)->postJson('/api/orders', [
             'items' => [
-                ['product_id' => $product->id, 'quantity' => 5]
-            ]
+                ['product_id' => $product->id, 'quantity' => 5],
+            ],
         ]);
 
         // Should fail at creation time
@@ -75,8 +75,8 @@ class OrderStockTest extends TestCase
 
         $orderResponse = $this->actingAs($this->user)->postJson('/api/orders', [
             'items' => [
-                ['product_id' => $product->id, 'quantity' => 1]
-            ]
+                ['product_id' => $product->id, 'quantity' => 1],
+            ],
         ]);
 
         $orderId = $orderResponse->json('id');
@@ -84,7 +84,7 @@ class OrderStockTest extends TestCase
         // Assert initial status is pending
         $this->assertDatabaseHas('orders', [
             'id' => $orderId,
-            'status' => \App\Enums\OrderStatus::Pending
+            'status' => \App\Enums\OrderStatus::Pending,
         ]);
 
         // Act: Confirm
@@ -93,7 +93,7 @@ class OrderStockTest extends TestCase
         // Assert: Status changed to confirmed
         $this->assertDatabaseHas('orders', [
             'id' => $orderId,
-            'status' => \App\Enums\OrderStatus::Confirmed
+            'status' => \App\Enums\OrderStatus::Confirmed,
         ]);
     }
 
@@ -104,8 +104,8 @@ class OrderStockTest extends TestCase
 
         $orderResponse = $this->actingAs($this->user)->postJson('/api/orders', [
             'items' => [
-                ['product_id' => $product->id, 'quantity' => 1]
-            ]
+                ['product_id' => $product->id, 'quantity' => 1],
+            ],
         ]);
 
         $orderId = $orderResponse->json('id');
@@ -119,7 +119,7 @@ class OrderStockTest extends TestCase
         // Stock should only be decremented once
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
-            'stock_quantity' => 9
+            'stock_quantity' => 9,
         ]);
     }
 }

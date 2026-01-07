@@ -45,8 +45,15 @@ export function AuthProvider({ children }) {
     };
 
     const logout = async () => {
-        await axios.post('/logout');
-        setUser(null);
+        try {
+            await axios.post('/logout');
+            console.log('Logout API success');
+        } catch (e) {
+            console.error('Logout API failed', e);
+        } finally {
+            setUser(null);
+            console.log('User set to null');
+        }
     };
 
     const value = {

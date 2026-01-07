@@ -33,6 +33,7 @@ class Order extends Model
         if ($to) {
             $query->whereDate('created_at', '<=', $to);
         }
+
         return $query;
     }
 

@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
             'price' => 249.00,
             'stock_quantity' => 50,
         ]);
-        
+
         // Exact match for the test if it looks for "MacBook" specifically
         Product::create([
             'name' => 'MacBook',
