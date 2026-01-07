@@ -1,6 +1,6 @@
 # Order Management System
 
-A full-stack Order Management System built with **Laravel 11** (Backend) and **React 19** (Frontend).
+A full-stack Order Management System built with **Laravel 12** (Backend) and **React 19** (Frontend).
 
 ## 🚀 Features
 
