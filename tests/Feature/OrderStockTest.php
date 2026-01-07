@@ -114,7 +114,7 @@ class OrderStockTest extends TestCase
         $this->actingAs($this->user)->postJson("/api/orders/{$orderId}/confirm")->assertStatus(200);
 
         // Second confirmation should fail
-        $this->actingAs($this->user)->postJson("/api/orders/{$orderId}/confirm")->assertStatus(400);
+        $this->actingAs($this->user)->postJson("/api/orders/{$orderId}/confirm")->assertStatus(409);
 
         // Stock should only be decremented once
         $this->assertDatabaseHas('products', [

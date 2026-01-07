@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 test('Order Flow: Create and View Order', async ({ page }) => {
+    // 0. Login
+    await page.goto('/login');
+    await page.fill('input[type="email"]', 'test@example.com');
+    await page.fill('input[type="password"]', 'password');
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL(/\/$/);
+
     // 1. Check initial stock of the first product
     await page.goto('/products');
     const firstProductRow = page.locator('tbody tr').first();

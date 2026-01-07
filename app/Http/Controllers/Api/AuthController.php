@@ -30,6 +30,9 @@ class AuthController extends Controller
             ]);
         }
 
+        // Start session for SPA cookie-based auth
+        Auth::login($user);
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
