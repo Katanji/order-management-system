@@ -241,7 +241,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/orders?page=1&status=pending&date_from=2024-01-01",
+                            "raw": "{{base_url}}/orders?page=1&status=pending&date_from=2024-01-01&date_to=2030-12-31",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -264,7 +264,7 @@
                                 },
                                 {
                                     "key": "date_to",
-                                    "value": "2024-12-31"
+                                    "value": "2030-12-31"
                                 }
                             ]
                         }
