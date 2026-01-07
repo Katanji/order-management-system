@@ -45,8 +45,8 @@ A full-stack Order Management System built with **Laravel 11** (Backend) and **R
 
 4. **Install Node dependencies & Build assets**
    ```bash
-   ./vendor/bin/sail npm install
-   ./vendor/bin/sail npm run build
+   npm install
+   npm run build
    ```
 
 5. **Run Migrations**
