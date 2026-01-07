@@ -1,0 +1,171 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "OMS" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: OMS
+          - navigation "Main" [ref=e9]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - link "Orders" [ref=e13] [cursor=pointer]:
+                  - /url: /
+                  - generic [ref=e14]: Orders
+              - listitem [ref=e15]:
+                - link "Products" [active] [ref=e16] [cursor=pointer]:
+                  - /url: /products
+                  - generic [ref=e17]: Products
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - img [ref=e20]
+            - generic [ref=e23]: Test User
+          - button "Logout" [ref=e24]:
+            - img [ref=e25]
+            - text: Logout
+    - main [ref=e28]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - heading "Products" [level=2] [ref=e32]
+          - generic [ref=e33]:
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - textbox "Search products..." [ref=e38]
+            - link "Add Product" [ref=e39] [cursor=pointer]:
+              - /url: /products/create
+              - img [ref=e40]
+              - text: Add Product
+        - table [ref=e43]:
+          - rowgroup [ref=e44]:
+            - row "ID Name Price Stock Actions" [ref=e45]:
+              - columnheader "ID" [ref=e46]
+              - columnheader "Name" [ref=e47]
+              - columnheader "Price" [ref=e48]
+              - columnheader "Stock" [ref=e49]
+              - columnheader "Actions" [ref=e50]
+          - rowgroup [ref=e51]:
+            - row "1 MacBook Pro 16 $2000.00 1 in stock" [ref=e52]:
+              - cell "1" [ref=e53]
+              - cell "MacBook Pro 16" [ref=e54]
+              - cell "$2000.00" [ref=e55]
+              - cell "1 in stock" [ref=e56]:
+                - generic [ref=e57]: 1 in stock
+              - cell [ref=e58]:
+                - link [ref=e59] [cursor=pointer]:
+                  - /url: /products/1/edit
+                  - img [ref=e60]
+                - button [ref=e63]:
+                  - img [ref=e64]
+            - row "2 iPhone 15 $999.00 20 in stock" [ref=e67]:
+              - cell "2" [ref=e68]
+              - cell "iPhone 15" [ref=e69]
+              - cell "$999.00" [ref=e70]
+              - cell "20 in stock" [ref=e71]:
+                - generic [ref=e72]: 20 in stock
+              - cell [ref=e73]:
+                - link [ref=e74] [cursor=pointer]:
+                  - /url: /products/2/edit
+                  - img [ref=e75]
+                - button [ref=e78]:
+                  - img [ref=e79]
+            - row "3 AirPods Pro $249.00 50 in stock" [ref=e82]:
+              - cell "3" [ref=e83]
+              - cell "AirPods Pro" [ref=e84]
+              - cell "$249.00" [ref=e85]
+              - cell "50 in stock" [ref=e86]:
+                - generic [ref=e87]: 50 in stock
+              - cell [ref=e88]:
+                - link [ref=e89] [cursor=pointer]:
+                  - /url: /products/3/edit
+                  - img [ref=e90]
+                - button [ref=e93]:
+                  - img [ref=e94]
+            - row "4 MacBook $2000.00 0 in stock" [ref=e97]:
+              - cell "4" [ref=e98]
+              - cell "MacBook" [ref=e99]
+              - cell "$2000.00" [ref=e100]
+              - cell "0 in stock" [ref=e101]:
+                - generic [ref=e102]: 0 in stock
+              - cell [ref=e103]:
+                - link [ref=e104] [cursor=pointer]:
+                  - /url: /products/4/edit
+                  - img [ref=e105]
+                - button [ref=e108]:
+                  - img [ref=e109]
+            - row "5 Test Product 1767794871938 $150.00 50 in stock" [ref=e112]:
+              - cell "5" [ref=e113]
+              - cell "Test Product 1767794871938" [ref=e114]
+              - cell "$150.00" [ref=e115]
+              - cell "50 in stock" [ref=e116]:
+                - generic [ref=e117]: 50 in stock
+              - cell [ref=e118]:
+                - link [ref=e119] [cursor=pointer]:
+                  - /url: /products/5/edit
+                  - img [ref=e120]
+                - button [ref=e123]:
+                  - img [ref=e124]
+            - row "6 Test Product 1767795002164 $150.00 50 in stock" [ref=e127]:
+              - cell "6" [ref=e128]
+              - cell "Test Product 1767795002164" [ref=e129]
+              - cell "$150.00" [ref=e130]
+              - cell "50 in stock" [ref=e131]:
+                - generic [ref=e132]: 50 in stock
+              - cell [ref=e133]:
+                - link [ref=e134] [cursor=pointer]:
+                  - /url: /products/6/edit
+                  - img [ref=e135]
+                - button [ref=e138]:
+                  - img [ref=e139]
+            - row "7 Test Product 1767796588651 $150.00 50 in stock" [ref=e142]:
+              - cell "7" [ref=e143]
+              - cell "Test Product 1767796588651" [ref=e144]
+              - cell "$150.00" [ref=e145]
+              - cell "50 in stock" [ref=e146]:
+                - generic [ref=e147]: 50 in stock
+              - cell [ref=e148]:
+                - link [ref=e149] [cursor=pointer]:
+                  - /url: /products/7/edit
+                  - img [ref=e150]
+                - button [ref=e153]:
+                  - img [ref=e154]
+            - row "8 Test Product 1767797077181 $150.00 50 in stock" [ref=e157]:
+              - cell "8" [ref=e158]
+              - cell "Test Product 1767797077181" [ref=e159]
+              - cell "$150.00" [ref=e160]
+              - cell "50 in stock" [ref=e161]:
+                - generic [ref=e162]: 50 in stock
+              - cell [ref=e163]:
+                - link [ref=e164] [cursor=pointer]:
+                  - /url: /products/8/edit
+                  - img [ref=e165]
+                - button [ref=e168]:
+                  - img [ref=e169]
+            - row "9 Test Product 1767797171844 $150.00 50 in stock" [ref=e172]:
+              - cell "9" [ref=e173]
+              - cell "Test Product 1767797171844" [ref=e174]
+              - cell "$150.00" [ref=e175]
+              - cell "50 in stock" [ref=e176]:
+                - generic [ref=e177]: 50 in stock
+              - cell [ref=e178]:
+                - link [ref=e179] [cursor=pointer]:
+                  - /url: /products/9/edit
+                  - img [ref=e180]
+                - button [ref=e183]:
+                  - img [ref=e184]
+            - row "10 Low Stock Item $100.00 1 in stock" [ref=e187]:
+              - cell "10" [ref=e188]
+              - cell "Low Stock Item" [ref=e189]
+              - cell "$100.00" [ref=e190]
+              - cell "1 in stock" [ref=e191]:
+                - generic [ref=e192]: 1 in stock
+              - cell [ref=e193]:
+                - link [ref=e194] [cursor=pointer]:
+                  - /url: /products/10/edit
+                  - img [ref=e195]
+                - button [ref=e198]:
+                  - img [ref=e199]
+```
